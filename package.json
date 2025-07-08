@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/Harsh4949/tedx-dypdit-portal-backend#readme",
   "dependencies": {
-    "dotenv": "^17.1.0",
-    "nodemon": "^3.1.10"
+    "dotenv": "^17.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2"
   }
 }
