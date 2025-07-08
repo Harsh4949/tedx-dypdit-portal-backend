@@ -1,0 +1,19 @@
+{
+  "name": "tedx-dypdit-portal-backend",
+  "version": "1.0.0",
+  "description": "This is Backend for TedxPaymentGateWay, TedxTicketAutomization ,TedxTicketVarification ,TedxTicketRegigtration",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Harsh4949/tedx-dypdit-portal-backend.git"
+  },
+  "author": "TedxDYPDIT Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Harsh4949/tedx-dypdit-portal-backend/issues"
+  },
+  "homepage": "https://github.com/Harsh4949/tedx-dypdit-portal-backend#readme"
+}
