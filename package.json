@@ -4,7 +4,7 @@
   "description": "This is Backend for TedxPaymentGateWay, TedxTicketAutomization ,TedxTicketVarification ,TedxTicketRegigtration",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Harsh4949/tedx-dypdit-portal-backend/issues"
   },
-  "homepage": "https://github.com/Harsh4949/tedx-dypdit-portal-backend#readme"
+  "homepage": "https://github.com/Harsh4949/tedx-dypdit-portal-backend#readme",
+  "dependencies": {
+    "dotenv": "^17.1.0",
+    "nodemon": "^3.1.10"
+  }
 }
