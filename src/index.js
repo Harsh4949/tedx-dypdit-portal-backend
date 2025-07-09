@@ -8,7 +8,7 @@ app.use(express.json());
 connectDB();
 
 app.get('/', (req, res) => {
-  res.send('MongoDB Connected!');
+  res.send('Server is running...');
 });
 
 const PORT = process.env.PORT || 5000;
