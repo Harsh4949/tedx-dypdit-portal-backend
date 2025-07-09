@@ -4,8 +4,7 @@
   "description": "This is Backend for TedxPaymentGateWay, TedxTicketAutomization ,TedxTicketVarification ,TedxTicketRegigtration",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/app.js",
-    "start": "npx nodemon src/app.js",
+    "start": "npx nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write ."
   },
@@ -26,7 +25,6 @@
     "mongoose": "^8.16.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10",
     "prettier": "^3.6.2"
   }
 }
