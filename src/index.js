@@ -2,8 +2,10 @@ const express = require('express');
 const connectDB = require('./config/db'); // make sure path is correct
 require('dotenv').config();
 const cors = require('cors');
+
 const tempRegistrationRoutes = require('./routes/tempRegistrations.routes');
-const queueSubmittedRoutes = require('./routes/queueSubmitted.routes');
+const queueSubmittedRoutes = require('./routes/queueSubmitedForm.routes');
+const paymentRoutes = require('./routes/payments.routes'); 
 
 const app = express();
 app.use(express.json());
@@ -17,14 +19,13 @@ app.use(cors({
 
 
 
-
-
-
+// Define routes
 app.use('/temp-registrations', tempRegistrationRoutes);
-app.use('/queue-submitted', queueSubmittedRoutes);
+app.use('/queue-submitted-forms', queueSubmittedRoutes);
+app.use('/payments', paymentRoutes);
 
 app.get('/', (req, res) => {
-  res.send('<h1>Server is running... Tedx</h1>');
+  res.send('Welcome to the backend API!');
 });
 
 app.get("/api/test", (req, res) => {
@@ -32,4 +33,7 @@ app.get("/api/test", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
