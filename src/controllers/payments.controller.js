@@ -3,8 +3,9 @@ const Payment = require('../models/payment.model');
 // GET all
 exports.getAllPayments = async (req, res) => {
   try {
-    const payments = await Payment.find().sort({ receivedAt: -1 });
+    const payments = await Payment.find().sort({ receivedAt: -1 }); // Sort by most recent Payemnt on the top
     res.status(200).json(payments);
+    
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -39,7 +40,10 @@ exports.updatePaymentStatus = async (req, res) => {
       { status: req.body.status },
       { new: true }
     );
-    if (!updated) return res.status(404).json({ error: 'Payment not found' });
+
+    if (!updated) 
+      return res.status(404).json({ error: 'Payment not found' });
+
     res.status(200).json(updated);
   } catch (err) {
     res.status(400).json({ error: err.message });

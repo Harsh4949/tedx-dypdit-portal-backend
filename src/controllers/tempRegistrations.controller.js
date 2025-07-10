@@ -1,6 +1,7 @@
 const TempRegistration = require('../models/tempRegistration.model');
 
 // Get all
+
 exports.getAllTempRegistrations = async (req, res) => {
   try {
     const data = await TempRegistration.find().sort({ submittedAt: -1 });
@@ -15,7 +16,10 @@ exports.getAllTempRegistrations = async (req, res) => {
 exports.getTempRegistrationById = async (req, res) => {
   try {
     const temp = await TempRegistration.findById(req.params.id);
-    if (!temp) return res.status(404).json({ error: 'Not found' });
+
+    if (!temp) 
+      return res.status(404).json({ error: 'Not found' });
+
     res.status(200).json(temp);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -25,8 +29,10 @@ exports.getTempRegistrationById = async (req, res) => {
 // Create new
 exports.createTempRegistration = async (req, res) => {
   try {
+
     const newEntry = await TempRegistration.create(req.body);
     res.status(201).json(newEntry);
+
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -38,7 +44,7 @@ exports.updateTempRegistration = async (req, res) => {
     const updated = await TempRegistration.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { new: true }   // for mongoose to return the updated document(true) or the original document(false)
     );
     if (!updated) return res.status(404).json({ error: 'Not found' });
     res.status(200).json(updated);
