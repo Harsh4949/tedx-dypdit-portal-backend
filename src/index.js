@@ -7,7 +7,7 @@ const tempRegistrationRoutes = require('./routes/tempRegistrations.routes');
 const queueSubmittedRoutes = require('./routes/queueSubmitedForm.routes');
 const paymentRoutes = require('./routes/payments.routes'); 
 const queueReceivedPaymentRoutes = require('./routes/queueReceivedPayment.routes'); 
-
+const studentRoutes = require('./routes/student.routes');
 
 const app = express();
 app.use(express.json());
@@ -25,6 +25,7 @@ app.use('/temp-registrations', tempRegistrationRoutes);
 app.use('/queue-submitted-forms', queueSubmittedRoutes);
 app.use('/payments', paymentRoutes);
 app.use('/queue/received-payments', queueReceivedPaymentRoutes);
+app.use('/students', studentRoutes);
 
 
 // Test route
