@@ -7,7 +7,7 @@ const tempRegistrationRoutes = require('./routes/tempRegistrations.routes');
 const queueSubmittedRoutes = require('./routes/queueSubmitedForm.routes');
 const paymentRoutes = require('./routes/payments.routes'); 
 const queueReceivedPaymentRoutes = require('./routes/queueReceivedPayment.routes'); 
-const studentRoutes = require('./routes/student.routes');
+const studentRoutes = require('./routes/students.routes');
 
 const app = express();
 app.use(express.json());
