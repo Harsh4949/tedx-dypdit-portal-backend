@@ -39,3 +39,6 @@ const queueReceivedPaymentSchema = new mongoose.Schema({
 const QueueReceivedPayment = mongoose.model('QueueReceivedPayment', queueReceivedPaymentSchema);
 
 module.exports = QueueReceivedPayment;
+
+
+

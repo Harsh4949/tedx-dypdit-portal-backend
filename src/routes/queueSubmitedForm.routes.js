@@ -12,7 +12,7 @@ module.exports = router;
 
 // 🔹 QueueSubmittedForms routes
 
-// GET    /queue-submitted       Get all submitted forms
-// GET    /queue-submitted/:id   Get a specific submitted form
-// POST   /queue-submitted       Create a new submitted form
-// DELETE /queue-submitted/:id   Delete a submitted form
+// GET    /queue-submitted-forms     Get all submitted forms
+// GET    /queue-submitted-forms/:id   Get a specific submitted form
+// POST   /queue-submitted-forms    Create a new submitted form
+// DELETE /queue-submitted-forms/:id   Delete a submitted form

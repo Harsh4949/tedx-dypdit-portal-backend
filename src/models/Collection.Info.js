@@ -13,3 +13,4 @@ export const CollectionInfo = {
   QueueSubmittedForms: "Temporarily stores form data with submitted reference numbers awaiting verification."
   
 };
+
