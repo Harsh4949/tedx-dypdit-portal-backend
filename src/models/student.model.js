@@ -34,7 +34,7 @@ const studentSchema = new mongoose.Schema({
     },
     participationType: {
         type: String,
-        enum: ['solo', 'duo', 'tro'],
+        enum: ['solo', 'duo', 'trio'],
         required: true
     },
     groupMembers: [{
