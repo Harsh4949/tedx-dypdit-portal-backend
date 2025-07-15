@@ -14,7 +14,7 @@ module.exports = router;
 
 
 // Method	Route	                                    Purpose
-// GET	    /queue/received-payments	                all received UPI payments
-// GET	    /queue/received-payments/:refNo	            Get one received payment by Ref No
-// POST	    /queue/received-payments	                Insert new UPI SMS payment from Android
-// DELETE	/queue/received-payments/:id	            Manually delete a payment
+// GET	    /queue-received-payments	                all received UPI payments
+// GET	    /queue-received-payments/:refNo	            Get one received payment by Ref No
+// POST	    /queue-received-payments	                Insert new UPI SMS payment from Android
+// DELETE	/queue-received-payments/:id	            Manually delete a payment
