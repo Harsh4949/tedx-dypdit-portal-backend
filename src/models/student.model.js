@@ -64,9 +64,13 @@ const studentSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    present: {
+    present: {             
         type: Boolean,
         default: false
+    },
+    presentyVerifiedBy: {
+        type: String,
+        default: null
     },
     paymentId: {
         type: mongoose.Types.ObjectId,
