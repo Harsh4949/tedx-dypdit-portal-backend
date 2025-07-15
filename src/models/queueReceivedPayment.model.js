@@ -12,7 +12,7 @@ const queueReceivedPaymentSchema = new mongoose.Schema({
         trim: true
     },
     amount: {
-        type: Number,
+        type: String,
         required: true
     },
     ServerHolderName: {
