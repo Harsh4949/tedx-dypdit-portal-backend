@@ -25,18 +25,26 @@ exports.getReceivedPaymentByRefNo = async (req, res) => {
 
 // Create new
 exports.createReceivedPayment = async (req, res) => {
-
   try {
-
     console.log("📥 Received payment data:", req.body);
 
-    const entry = await QueueReceivedPayment.create({ ...req.body });
-    res.status(201).json(entry);
+    // Fix mismatched keys
+    const payload = {
+      refNo: req.body.refNo,
+      amount: req.body.amount,
+      bankName: req.body.bankName,
+      ServerHolderName: req.body.serverHolder, // 👈 convert key
+      receivedAt: new Date(req.body.timeReceived), // 👈 convert to Date
+    };
 
+    const entry = await QueueReceivedPayment.create(payload);
+    res.status(201).json(entry);
   } catch (err) {
+    console.error("❌ Failed to insert:", err.message);
     res.status(400).json({ error: err.message });
   }
 };
+
 
 // Delete by ID
 exports.deleteReceivedPayment = async (req, res) => {
