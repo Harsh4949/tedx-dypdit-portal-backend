@@ -28,6 +28,8 @@ exports.createReceivedPayment = async (req, res) => {
 
   try {
 
+    console.log("📥 Received payment data:", req.body);
+
     const entry = await QueueReceivedPayment.create({ ...req.body });
     res.status(201).json(entry);
 

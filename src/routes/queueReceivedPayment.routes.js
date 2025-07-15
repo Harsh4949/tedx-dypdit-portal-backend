@@ -8,6 +8,7 @@ router.get('/:refNo', controller.getReceivedPaymentByRefNo);
 
 // POST new payment (from Android app)
 router.post('/', controller.createReceivedPayment);
+
 router.delete('/:id', controller.deleteReceivedPayment);
 
 module.exports = router;
