@@ -24,14 +24,8 @@ app.use(cors({
 app.use('/temp-registrations', tempRegistrationRoutes);
 app.use('/queue-submitted-forms', queueSubmittedRoutes);
 app.use('/payments', paymentRoutes);
-//app.use('/queue/received-payments', queueReceivedPaymentRoutes);
+app.use('/queue-received-payments', queueReceivedPaymentRoutes);
 app.use('/students', studentRoutes);
-
-
-// app.post('/queue/received-payments', async (req, res) => {
-//     console.log("📥 Received payment data:", req.body);
-//     res.status(200).send("OK");
-// });
 
 // Test route
 app.get('/', (req, res) => {
