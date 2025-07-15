@@ -27,8 +27,8 @@ exports.getReceivedPaymentByRefNo = async (req, res) => {
 exports.createReceivedPayment = async (req, res) => {
 
   try {
-    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours TTL
-    const entry = await QueueReceivedPayment.create({ ...req.body, expiresAt });
+
+    const entry = await QueueReceivedPayment.create({ ...req.body });
     res.status(201).json(entry);
 
   } catch (err) {
