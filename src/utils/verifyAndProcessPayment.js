@@ -1,0 +1,108 @@
+const QueueReceivedPayment = require('../models/queueReceivedPayment.model');
+const QueueSubmittedForm = require('../models/queueSubmitedForm.model');
+const Payment = require('../models/payment.model');
+const Student = require('../models/student.model');
+
+const generateTicket = require('./ticketGenerator'); // dummy utility
+const sendMail = require('./sendTicketMail'); // dummy utility
+
+async function verifyAndProcessPayment(refNo) {
+  try {
+
+    // ✅ Step 1: Check if payment exists
+    const paymentData = await QueueReceivedPayment.findOne({ refNo });
+    if (!paymentData) {
+      console.log(`❌ No payment found for refNo ${refNo}`);
+      return;
+    }
+
+    // ✅ Step 2: Check if submitted form exists
+    const formData = await QueueSubmittedForm.findOne({ refNo }).sort({ submittedAt: 1 });
+    if (!formData) {
+      console.log(`❌ No form found for refNo ${refNo}`);
+      return;
+    }
+
+    console.log(`✅ Match found for refNo ${refNo}`);
+
+    // ✅ Step 3: Create a new Payment entry
+    const newPayment = await Payment.create({
+      refNo: paymentData.refNo,
+      paidBy: formData.name,
+      participationType: formData.type,
+      amount: Number(paymentData.amount),
+      submittedAt: formData.submittedAt,
+      paymentScreenshotURL: formData.paymentScreenshotURL,
+      serverHolder: paymentData.ServerHolderName,
+      status: 'valid'
+    });
+
+    // ✅ Step 4: Generate tickets and insert students
+    const studentDocs = [];
+    const participants = [];
+
+    // Solo participant
+    participants.push({
+      name: formData.name,
+      email: formData.email,
+      contact: formData.contact,
+      college: formData.college,
+      department: formData.department
+    });
+
+    // Duo / Trio members
+    if (formData.groupMembers && formData.groupMembers.length > 0) {
+      formData.groupMembers.forEach(member => participants.push(member));
+    }
+
+    for (let participant of participants) {
+      const ticketNumber = generateTicket(); // dummy utility
+      const student = await Student.create({
+        name: participant.name,
+        email: participant.email,
+        contact: participant.contact,
+        college: participant.college,
+        department: participant.department,
+        participationType: formData.type,
+        ticket: {
+          number: ticketNumber,
+          issuedAt: new Date(),
+          status: 'sent'
+        },
+        refNo: formData.refNo,
+        paymentId: newPayment._id,
+        paymentScreenshotURL: formData.paymentScreenshotURL
+      });
+
+      studentDocs.push(student);
+
+      // ✅ Send ticket email
+      await sendMail(student.email, 'TEDx Ticket', `Your ticket number is ${ticketNumber}`, ticketNumber, student.name, formData.type);
+    }
+
+    // ✅ Update Payment with student references and
+    // ✅ Add references to all other group members in each Student doc
+    await Payment.findByIdAndUpdate(newPayment._id, {linkedStudentIds: studentDocs.map(s => s._id)});
+   
+    const studentIds = studentDocs.map(s => s._id);
+    await Promise.all(studentDocs.map(student => {
+      const otherMembers = studentIds.filter(id => !id.equals(student._id));
+      return Student.findByIdAndUpdate(student._id, { groupMembers: otherMembers });
+    }));
+
+    console.log(`✅ Inserted ${studentDocs.length} students & payment linked`);
+
+
+    // ✅ Step 5: Remove from Queue collections
+    await QueueSubmittedForm.deleteOne({ _id: formData._id });
+    // await QueueReceivedPayment.deleteOne({ _id: paymentData._id });   //Removed for testing Uncommet it
+    console.log(`🗑️ Removed refNo ${refNo} from QueueSubmittedForms & QueueReceivedPayments`);
+
+
+
+  } catch (err) {
+    console.error('❌ Error in verifyAndProcessPayment:', err.message);
+  }
+}
+
+module.exports = verifyAndProcessPayment;

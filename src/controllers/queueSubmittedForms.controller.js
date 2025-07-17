@@ -1,4 +1,5 @@
 const QueueSubmittedForm = require('../models/queueSubmitedForm.model');
+const verifyAndProcessPayment = require('../utils/verifyAndProcessPayment');
 
 // Get all
 exports.getAllQueueForms = async (req, res) => {
@@ -34,13 +35,21 @@ exports.createQueueForm = async (req, res) => {
 
   try { 
 
-    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hrs from now
+   const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hrs from now
+   //const expiresAt = new Date(Date.now() + 4 * 60 * 1000);
+   
     const formData = { ...req.body, expiresAt };
     const newForm = await QueueSubmittedForm.create(formData);
+
     res.status(201).json(newForm);
+
+    //  Background process (no res)
+    verifyAndProcessPayment(newForm.refNo)
+      .catch(err => console.error('Error in background process:', err));
 
   } catch (err) {
     res.status(400).json({ error: err.message });
+    console.error("❌ Failed to insert:", err.message);
   }
 };
 

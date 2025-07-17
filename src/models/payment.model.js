@@ -22,10 +22,6 @@ const paymentSchema = new mongoose.Schema({
         enum: ['solo', 'duo', 'trio'],
         required: true
     },
-    groupMembers: [{
-        type: mongoose.Types.ObjectId,
-        ref: 'Student'
-    }],    
     amount: {
         type: Number,
         required: true
@@ -48,11 +44,10 @@ const paymentSchema = new mongoose.Schema({
         required: true,
         trim: true // GPay/PhonePe/Bank name
     },
-    linkedStudentId: {
+    linkedStudentIds: [{
         type: mongoose.Types.ObjectId,
         ref: 'Student',
-        default: null
-    },
+    }],
     status: {
         type: String,
         enum: ['valid', 'duplicate', 'unmatched'],
