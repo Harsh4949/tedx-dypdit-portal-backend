@@ -33,7 +33,7 @@ app.use('/students', studentRoutes);
 app.use('/admin', adminRoutes);
 
 
-// Run every minute checl for expired forms
+// Run every minute check for expired forms                 // start during production
 // schedule.scheduleJob('*/1 * * * *', async () => {
 //   console.log("🔄 Checking for expired forms...");
 //   await moveExpiredForms();
