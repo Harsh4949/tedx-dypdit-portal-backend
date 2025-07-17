@@ -3,8 +3,8 @@ const QueueSubmittedForm = require('../models/queueSubmitedForm.model');
 const Payment = require('../models/payment.model');
 const Student = require('../models/student.model');
 
-const generateTicket = require('./ticketGenerator'); // dummy utility
-const sendMail = require('./sendTicketMail'); // dummy utility
+const generateTicket = require('./ticketGenerator'); 
+const sendMail = require('./sendTicketMail'); 
 
 async function verifyAndProcessPayment(refNo) {
   try {
@@ -56,7 +56,7 @@ async function verifyAndProcessPayment(refNo) {
     }
 
     for (let participant of participants) {
-      const ticketNumber = generateTicket(); // dummy utility
+      const ticketNumber =  generateTicket(); 
       const student = await Student.create({
         name: participant.name,
         email: participant.email,
@@ -77,7 +77,7 @@ async function verifyAndProcessPayment(refNo) {
       studentDocs.push(student);
 
       // ✅ Send ticket email
-      await sendMail(student.email, 'TEDx Ticket', `Your ticket number is ${ticketNumber}`, ticketNumber, student.name, formData.type);
+       await sendMail(student.email, 'TEDx Ticket', `Your ticket number is ${ticketNumber}`, ticketNumber, student.name, formData.type);
     }
 
     // ✅ Update Payment with student references and

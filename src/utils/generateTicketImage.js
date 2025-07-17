@@ -1,46 +1,84 @@
-const { createCanvas, loadImage } = require('canvas');
+const { createCanvas, loadImage,registerFont } = require('canvas');
 const QRCode = require('qrcode');
 const fs = require('fs');
 const path = require('path');
+
+try {
+// Register Montserrat
+registerFont(path.join(__dirname, '../assets/Montserrat-Regular.ttf'), {
+    family: 'Montserrat'
+});
+registerFont(path.join(__dirname, '../assets/Montserrat-Bold.ttf'), {
+    family: 'Montserrat',
+    weight: 'bold'
+});
+} catch (error) {
+    console.error('❌ Error registering fonts:', error);
+}
+
+function drawSpacedText(ctx, text, x, y, spacing) {
+    const chars = text.split('');
+    const totalWidth = chars.reduce((acc, char) => acc + ctx.measureText(char).width + spacing, -spacing);
+    let currentX = x - totalWidth / 2;
+
+    for (const char of chars) {
+        ctx.fillText(char, currentX, y);
+        currentX += ctx.measureText(char).width + spacing;
+    }
+}
+
 
 async function generateTicketImage(ticketNumber, name, role) {
     try {
         const width = 1080;
         const height = 1350;
 
-        // Path to your layout template (second image)
         const templatePath = path.join(__dirname, '../assets/DYPDPU.png');
         const template = await loadImage(templatePath);
 
-        // Create canvas
         const canvas = createCanvas(width, height);
         const ctx = canvas.getContext('2d');
 
-        // Draw template
+        // Draw the background/template
         ctx.drawImage(template, 0, 0, width, height);
 
-        // Ticket Number
+        // === TEXT: Ticket Number ===
         ctx.fillStyle = '#FFFFFF';
-        ctx.font = 'bold 70px Arial';
+        ctx.font = 'bold 60px Montserrat';
         ctx.textAlign = 'center';
-        ctx.fillText(ticketNumber, width / 2, 250);
+        ctx.fillText(ticketNumber, width / 2, 400);
 
-        // QR Code
-        const qrDataURL = await QRCode.toDataURL(ticketNumber, { width: 300 });
+       // === QR CODE ===
+        const qrDataURL = await QRCode.toDataURL(ticketNumber, {
+            scale: 20,
+            margin: 0,
+            color: {
+                dark: '#000000',
+                light: '#00000000' // Transparent
+            }
+        });
+
         const qrImg = await loadImage(qrDataURL);
-        ctx.drawImage(qrImg, width / 2 - 150, 400, 300, 300);
+        const qrSize = 450;
+        const qrX = (width - qrSize) / 2;
+        const qrY = 480;
 
-        // Name
-        ctx.fillStyle = '#FF0000';
-        ctx.font = 'bold 60px Arial';
-        ctx.fillText(name.toUpperCase(), width / 2, 800);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
 
-        // Role / Type
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = '40px Arial';
-        ctx.fillText(role.toUpperCase(), width / 2, 870);
 
-        // Save ticket image
+        // === TEXT: Name ===
+        ctx.fillStyle = '#ef2200'; // Red
+        ctx.font = 'extrabold 50px Montserrat';
+        drawSpacedText(ctx, name.toUpperCase(), (width / 2) + 10, qrY + qrSize + 120, 5); // `5` is spacing in px
+
+        // === TEXT: Role ===
+        ctx.fillStyle = '#FFFFFF'; // White
+        ctx.font = ' 35px Montserrat';
+        drawSpacedText(ctx, role.toUpperCase(), width / 2, qrY + qrSize + 180, 5); // `5` is spacing in px
+
+        // === SAVE ===
         const outPath = path.join(__dirname, `../tickets/${ticketNumber}.png`);
         const buffer = canvas.toBuffer('image/png');
         fs.writeFileSync(outPath, buffer);
