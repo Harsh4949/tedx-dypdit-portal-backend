@@ -78,7 +78,7 @@ const tempRegistrationSchema = new mongoose.Schema({
     },
     paymentStatus: {
         type: String,
-        enum: ['pending', 'verified', 'rejected'],
+        enum: ['pending', 'verified', 'rejected', 'unmatchAmount'],
         default: 'pending'
     },
     submittedRefNo: {
