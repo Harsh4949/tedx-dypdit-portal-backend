@@ -29,7 +29,8 @@
     "node-schedule": "^2.1.1",
     "nodemailer": "^7.0.5",
     "path": "^0.12.7",
-    "qrcode": "^1.5.4"
+    "qrcode": "^1.5.4",
+    "socket.io": "^4.8.1"
   },
   "devDependencies": {
     "prettier": "^3.6.2"
