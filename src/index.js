@@ -19,9 +19,9 @@ connectDB();
 
 // CORS
 app.use(cors({
-  origin: '*',  // Allow all origins
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: 'https://tedx-dypdit-portal-frontend.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
 }));
 
 // API Routes
@@ -36,12 +36,16 @@ app.get('/', (req, res) => res.send('Welcome to the backend API!'));
 
 // HTTP + WebSocket Server
 const server = http.createServer(app);
+
 const io = new Server(server, {
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
-  }
+    origin: 'https://tedx-dypdit-portal-frontend.vercel.app',
+    methods: ['GET', 'POST'],
+    credentials: true
+  },
+  transports: ['websocket'] // Force WebSocket only
 });
+
 
 // WebSocket Connection
 io.on('connection', async (socket) => {
