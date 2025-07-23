@@ -91,14 +91,14 @@ function watchQueueCollections() {
 
     paymentWatcher.on('change', async () => {
       console.log('🔔 Payment queue updated, pushing new data...');
-      const allSockets = await io.fetchSockets();
-      allSockets.forEach((s) => sendQueueData(s));
+      const allSockets = await io.fetchSockets();             // fetch all connected sockets
+      allSockets.forEach((socket) => sendQueueData(socket));  // send updated data to each socket
     });
 
     registrationWatcher.on('change', async () => {
       console.log('🔔 Registration queue updated, pushing new data...');
       const allSockets = await io.fetchSockets();
-      allSockets.forEach((s) => sendQueueData(s));
+      allSockets.forEach((socket) => sendQueueData(socket));
     });
 
   } catch (err) {
