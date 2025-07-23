@@ -73,7 +73,7 @@ async function sendQueueData(socket) {
       paymentEntries,
       registrationEntries,
       tempRegistrationUnmatch,
-      ticketsSold
+      ticketsSold 
     });
 
   } catch (error) {
