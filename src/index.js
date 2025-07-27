@@ -19,7 +19,7 @@ connectDB();
 
 // CORS
 app.use(cors({
-  origin: 'https://tedx-dypdit-portal-frontend.vercel.app',
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
@@ -39,7 +39,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: 'https://tedx-dypdit-portal-frontend.vercel.app',
+    origin: '*',
     methods: ['GET', 'POST'],
     credentials: true
   },
