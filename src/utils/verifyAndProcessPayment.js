@@ -130,7 +130,7 @@ async function verifyAndProcessPayment(refNo) {
 
     //  Remove from Queue collections
     await QueueSubmittedForm.deleteOne({ _id: formData._id });
-    // await QueueReceivedPayment.deleteOne({ _id: paymentData._id });   //Removed for testing Uncommet it
+    await QueueReceivedPayment.deleteOne({ _id: paymentData._id });   //Removed for testing Uncommet it
     console.log(`🗑️ Removed refNo ${refNo} from QueueSubmittedForms & QueueReceivedPayments`);
 
 
