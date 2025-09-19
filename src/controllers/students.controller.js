@@ -70,3 +70,56 @@ exports.deleteStudent = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// GET student by ticket number
+exports.getStudentByTicketNumber = async (req, res) => {
+  try {
+    const student = await Student.findOne({ 'ticket.number': req.params.ticketNumber });
+    if (!student) return res.status(404).json({ error: 'Not found' });
+    res.status(200).json(student);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Mark Present by Ticket Number
+exports.markPresent = async (req, res) => {
+  try {
+    const { ticketNumber } = req.params;   // coming from scanner
+    const { verifiedBy } = req.body;       // name of verifier (e.g., from req.user or body)
+
+    // Find the student by ticket number
+    const student = await Student.findOne({ 'ticket.number': ticketNumber })
+      .populate('groupMembers'); // include group members if any
+
+    if (!student) {
+      return res.status(404).json({ error: 'Ticket not found' });
+    }
+
+    // If already marked present, prevent duplicate scans
+    if (student.present) {
+      return res.status(400).json({ error: 'Already marked present' });
+    }
+
+    // Mark the main student
+    student.present = true;
+    student.presentyVerifiedBy = verifiedBy;
+    await student.save();
+
+    // If group ticket (duo/trio), mark members too
+    if (student.participationType !== 'solo' && student.groupMembers.length > 0) {
+      await Student.updateMany(
+        { _id: { $in: student.groupMembers } },
+        { $set: { present: true, presentyVerifiedBy: verifiedBy } }
+      );
+    }
+
+    res.status(200).json({
+      message: `${student.participationType} attendance marked successfully`,
+      student
+    });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

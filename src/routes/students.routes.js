@@ -4,10 +4,13 @@ const studentController = require('../controllers/students.controller');
 
 
 router.get('/', studentController.getAllStudents);
-router.get('/:id', studentController.getStudentById);
+// router.get('/:id', studentController.getStudentById);
 router.post('/', studentController.createStudent);
-router.put('/:id', studentController.updateStudent);
-router.delete('/:id', studentController.deleteStudent);
+// router.put('/:id', studentController.updateStudent);
+// router.delete('/:id', studentController.deleteStudent);
+router.get('/:ticketNumber', studentController.getStudentByTicketNumber);
+router.put('/mark-present/:ticketNumber', studentController.markPresent);
+
 
 module.exports = router;
 
